@@ -1,5 +1,0 @@
-set -tmpdir "C:/Users/Usuario/Desktop/Arquitectura/Procesador_6/xst/projnav.tmp"
-set -xsthdpdir "C:/Users/Usuario/Desktop/Arquitectura/Procesador_6/xst"
-elaborate
--ifn Mux32disp.prj
--ifmt mixed

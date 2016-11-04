@@ -1,1 +1,0 @@
-vhdtdtfi -prj implementacion1 -o "C:/Users/ANDRES/Google Drive/2016-2/Arquitectura/Entrega1/sumador_32b.vhi" -module sumador_32b -template C:/Xilinx/14.7/ISE_DS/ISE//data/vhdlinst.tft -deleteonerror -lib work sumador_32b.vhd 

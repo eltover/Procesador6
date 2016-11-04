@@ -1,1 +1,0 @@
-vhdtdtfi -prj implementacion1 -o "C:/Users/ANDRES/Google Drive/2016-2/Arquitectura/Entrega1/nProgramCounter.vhi" -module nProgramCounter -template C:/Xilinx/14.7/ISE_DS/ISE//data/vhdlinst.tft -deleteonerror -lib work nProgramCounter.vhd 

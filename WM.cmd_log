@@ -1,1 +1,0 @@
-vhdtdtfi -prj implementacion1 -o C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/WM.vhi -module WM -template C:/Xilinx/14.7/ISE_DS/ISE//data/vhdlinst.tft -deleteonerror -lib work WM.vhd 
