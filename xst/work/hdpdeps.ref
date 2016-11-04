@@ -1,0 +1,113 @@
+V3 69
+FL C:/Users/ANDRES/Desktop/Entrega2/WM.vhd 2016/10/27.16:51:26 P.20131013
+EN work/WM 1477605097 FL C:/Users/ANDRES/Desktop/Entrega2/WM.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_SIGNED 1381692178 \
+      PB ieee/std_logic_arith 1381692177
+AR work/WM/Behavioral 1477605098 \
+      FL C:/Users/ANDRES/Desktop/Entrega2/WM.vhd EN work/WM 1477605097
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/alu32.vhd 2016/10/24.15:17:36 P.20131013
+EN work/alu32 1477496610 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/alu32.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179 \
+      PB ieee/NUMERIC_STD 1381692181 PB ieee/std_logic_arith 1381692177
+AR work/alu32/arq_alu 1477496611 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/alu32.vhd \
+      EN work/alu32 1477496610
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/Instruction_Memory.vhd 2016/10/26.10:15:33 P.20131013
+EN work/Instruction_Memory 1477496600 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/Instruction_Memory.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179 \
+      PB std/TEXTIO 1381692176
+AR work/Instruction_Memory/Behavioral 1477496601 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/Instruction_Memory.vhd \
+      EN work/Instruction_Memory 1477496600
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/MUX_32.vhd 2016/10/26.08:32:52 P.20131013
+EN work/MUX_32 1477496608 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/MUX_32.vhd \
+      PB ieee/std_logic_1164 1381692176
+AR work/MUX_32/Behavioral 1477496609 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/MUX_32.vhd \
+      EN work/MUX_32 1477496608
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/nProgramCounter.vhd 2015/10/09.09:59:02 P.20131013
+EN work/nProgramCounter 1477496594 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/nProgramCounter.vhd \
+      PB ieee/std_logic_1164 1381692176
+AR work/nProgramCounter/Behavioral 1477496595 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/nProgramCounter.vhd \
+      EN work/nProgramCounter 1477496594
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/PC.vhd 2016/10/11.00:23:16 P.20131013
+EN work/PC 1477496596 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/PC.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/PC/Behavioral 1477496597 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/PC.vhd \
+      EN work/PC 1477496596
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/ProcesadorMonociclo.vhd 2016/10/26.09:36:05 P.20131013
+EN work/ProcesadorMonociclo 1477496618 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/ProcesadorMonociclo.vhd \
+      PB ieee/std_logic_1164 1381692176
+AR work/ProcesadorMonociclo/Behavioral 1477496619 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/ProcesadorMonociclo.vhd \
+      EN work/ProcesadorMonociclo 1477496618 CP nProgramCounter CP PC \
+      CP sumador_32b CP Instruction_Memory CP ucontrol CP registerFile CP seu_32 \
+      CP MUX_32 CP alu32 CP WM CP PSR_Modifier CP psr
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/psr.vhd 2016/10/26.10:43:07 P.20131013
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/PSR_Modifier.vhd 2016/10/26.09:38:14 P.20131013
+EN work/PSR_Modifier 1477496614 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/PSR_Modifier.vhd \
+      PB ieee/std_logic_1164 1381692176
+AR work/PSR_Modifier/Behavioral 1477496615 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/PSR_Modifier.vhd \
+      EN work/PSR_Modifier 1477496614
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/registerFile.vhd 2016/10/25.23:17:07 P.20131013
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/seu_32.vhd 2016/10/10.15:07:38 P.20131013
+EN work/seu_32 1477496606 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/seu_32.vhd \
+      PB ieee/std_logic_1164 1381692176
+AR work/seu_32/arq_seu32 1477496607 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/seu_32.vhd \
+      EN work/seu_32 1477496606
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/sumador_32b.vhd 2016/10/25.22:13:50 P.20131013
+EN work/sumador_32b 1477496598 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/sumador_32b.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/sumador_32b/arq_sum32 1477496599 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/sumador_32b.vhd \
+      EN work/sumador_32b 1477496598
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/ucontrol.vhd 2016/10/20.17:36:40 P.20131013
+EN work/ucontrol 1477496602 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/ucontrol.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/ucontrol/arq_uc 1477496603 \
+      FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/ucontrol.vhd \
+      EN work/ucontrol 1477496602
+FL C:/Users/ANDRES/Documents/2016-2/Arquitectura/Entrega2/Entrega2/Entrega2/Entrega2/WM.vhd 2016/10/26.09:21:22 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/alu32.vhd 2016/10/24.15:17:36 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/Instruction_Memory.vhd 2016/10/10.11:11:40 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/MUX_32.vhd 2016/10/10.23:56:40 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/nProgramCounter.vhd 2015/10/09.09:59:02 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/PC.vhd 2016/10/11.00:23:16 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/ProcesadorMonociclo.vhd 2016/10/24.15:31:59 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/psr.vhd 2016/10/24.12:31:32 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/PSR_Modifier.vhd 2016/10/24.13:59:02 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/registerFile.vhd 2016/10/24.15:42:26 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/seu_32.vhd 2016/10/10.15:07:38 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/sumador_32b.vhd 2016/10/05.14:26:36 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/ucontrol.vhd 2016/10/20.17:36:40 P.20131013
+FL C:/Users/ANDRES/Downloads/Entrega1/Entrega1/Entrega1/WM.vhd 2016/10/24.13:57:24 P.20131013
+FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/Entrega2/psr.vhd 2016/10/26.13:05:58 P.20131013
+EN work/psr 1477505173 \
+      FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/Entrega2/psr.vhd \
+      PB ieee/std_logic_1164 1381692176
+AR work/psr/arq_psr 1477505174 \
+      FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/Entrega2/psr.vhd \
+      EN work/psr 1477505173
+FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/Entrega2/registerFile.vhd 2016/10/26.13:17:36 P.20131013
+EN work/registerFile 1477506518 \
+      FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/Entrega2/registerFile.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/registerFile/Behavioral 1477506519 \
+      FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/Entrega2/registerFile.vhd \
+      EN work/registerFile 1477506518
+FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/Instruction_Memory.vhd 2016/10/10.11:11:40 P.20131013
+FL C:/Users/Usuario/Desktop/Arquitectura/procesador4/Entrega2/Entrega2/Entrega2/WM.vhd 2016/10/25.23:26:27 P.20131013
