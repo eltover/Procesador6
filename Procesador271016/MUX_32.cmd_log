@@ -1,0 +1,1 @@
+vhdtdtfi -prj implementacion1 -o "C:/Users/ANDRES/Google Drive/2016-2/Arquitectura/Entrega1/MUX_32.vhi" -module MUX_32 -template C:/Xilinx/14.7/ISE_DS/ISE//data/vhdlinst.tft -deleteonerror -lib work MUX_32.vhd 
