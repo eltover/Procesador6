@@ -35,6 +35,22 @@ COMPONENT sumador_32b
 		);
 	END COMPONENT;
 
+COMPONENT sumador_disp22
+	PORT(
+		A : IN std_logic_vector(31 downto 0);
+		B : IN std_logic_vector(31 downto 0);          
+		SUM : OUT std_logic_vector(31 downto 0)
+		);
+	END COMPONENT;
+
+COMPONENT sumador_disp30
+	PORT(
+		A : IN std_logic_vector(31 downto 0);
+		B : IN std_logic_vector(31 downto 0);          
+		SUM : OUT std_logic_vector(31 downto 0)
+		);
+	END COMPONENT;
+	
 COMPONENT Instruction_Memory
 	PORT(
 		address : IN std_logic_vector(31 downto 0);
@@ -46,11 +62,20 @@ COMPONENT Instruction_Memory
 COMPONENT ucontrol
 	PORT(
 		op : IN std_logic_vector(1 downto 0);
-		op3 : IN std_logic_vector(5 downto 0);          
-		ucout : OUT std_logic_vector(5 downto 0)
+		op2 : IN std_logic_vector(2 downto 0);
+		op3 : IN std_logic_vector(5 downto 0);
+		icc : IN std_logic_vector(3 downto 0);
+		cond : IN std_logic_vector(3 downto 0);          
+		ucout : OUT std_logic_vector(5 downto 0);
+		rfdest : OUT std_logic;
+		wrenmem : OUT std_logic;
+		rdenmem : OUT std_logic;
+		rfsource : OUT std_logic_vector(1 downto 0);
+		we : OUT std_logic;
+		pcsource : OUT std_logic_vector(1 downto 0)
 		);
 	END COMPONENT;
-
+	
 COMPONENT registerFile
 	PORT(
 		rs1 : IN std_logic_vector(5 downto 0);
@@ -59,11 +84,18 @@ COMPONENT registerFile
 		DWR : IN std_logic_vector(31 downto 0);
 		reset : IN std_logic;          
 		crs1 : OUT std_logic_vector(31 downto 0);
-		crs2 : OUT std_logic_vector(31 downto 0)
-		
+		crs2 : OUT std_logic_vector(31 downto 0);
+		crd : out  STD_LOGIC_VECTOR (31 downto 0)
 		);
 	END COMPONENT;
 
+COMPONENT SEU22
+	PORT(
+		inme22 : IN std_logic_vector(21 downto 0);          
+		seu_out : OUT std_logic_vector(31 downto 0)
+		);
+	END COMPONENT;
+	
 COMPONENT seu_32
 	PORT(
 		inme13 : IN std_logic_vector(12 downto 0);          
@@ -90,6 +122,39 @@ COMPONENT alu32
 		c : in  std_logic);
 	END COMPONENT;
 
+COMPONENT MUX32Alu
+	PORT(
+		clk : IN std_logic;
+		opcion : IN std_logic_vector(1 downto 0);
+		entrada1 : IN std_logic_vector(31 downto 0);
+		entrada2 : IN std_logic_vector(31 downto 0);
+		entrada3 : IN std_logic_vector(31 downto 0);       
+		salida : INOUT std_logic_vector(31 downto 0)
+		);
+	END COMPONENT;
+	
+COMPONENT DM
+	PORT(
+		reset : IN std_logic;
+		WEnable : IN std_logic;
+		Address : IN std_logic_vector(31 downto 0);
+		Data : IN std_logic_vector(31 downto 0);          
+		DMout : OUT std_logic_vector(31 downto 0)
+		);
+	END COMPONENT;
+
+COMPONENT Mux32disp
+	PORT(
+		clk : IN std_logic;
+		opcion : IN std_logic_vector(1 downto 0);
+		entrada1 : IN std_logic_vector(31 downto 0);
+		entrada2 : IN std_logic_vector(31 downto 0);
+		entrada3 : IN std_logic_vector(31 downto 0);
+		entrada4 : IN std_logic_vector(31 downto 0);       
+		salida : INOUT std_logic_vector(31 downto 0)
+		);
+	END COMPONENT;
+	
 COMPONENT WM
 	PORT(
 		rst : in std_logic;
@@ -127,13 +192,20 @@ COMPONENT WM
 		Carry : OUT std_logic
 		);
 	END COMPONENT;
-	
+signal Mux32disp_to_nPC: std_logic_vector(31 downto 0);
+signal Sum32b_to_Mux32disp: std_logic_vector(31 downto 0);
+signal Sumdisp22_to_Mux32disp: std_logic_vector(31 downto 0);
+signal Sumdisp30_to_Mux32disp: std_logic_vector(31 downto 0);
+
+
 signal ADD_to_nPC: std_logic_vector(31 downto 0);
+
 signal nPC_to_PC: std_logic_vector(31 downto 0);
 signal PC_to_IM: std_logic_vector(31 downto 0);
 signal IM_to_RF: std_logic_vector(31 downto 0);
 signal RF_to_ALU: std_logic_vector(31 downto 0);
 signal RF_to_MUX: std_logic_vector(31 downto 0);
+signal RF_to_DM: std_logic_vector(31 downto 0);
 signal SEU_to_MUX: std_logic_vector(31 downto 0);
 signal MUX_to_ALU: std_logic_vector(31 downto 0);
 signal UC_to_ALU: std_logic_vector(5 downto 0);
@@ -149,7 +221,7 @@ begin
 ALUresult <= ALU_to_RF;
 
 Inst_nProgramCounter: nProgramCounter PORT MAP(
-		nPC_in => ADD_to_nPC,
+		nPC_in => Mux32disp_to_nPC,
 		nPC_out => nPC_to_PC,
 		clk => clk_in,
 		reset => reset_in
@@ -165,9 +237,21 @@ Inst_PC: PC PORT MAP(
 Inst_sumador_32b: sumador_32b PORT MAP(
 		A => "00000000000000000000000000000001",
 		B => nPC_to_PC,
-		SUM => ADD_to_nPC
+		SUM => Sum32b_to_Mux32disp
 	);
 
+Inst_sumador_disp22: sumador_disp22 PORT MAP(
+		A => PC_to_IM,
+		B => ,
+		SUM => Sumdisp22_to_Mux32disp
+	);
+
+Inst_sumador_disp30: sumador_disp30 PORT MAP(
+		A => ,
+		B => PC_to_IM,
+		SUM => Sumdisp30_to_Mux32disp
+	);
+	
 Inst_Instruction_Memory: Instruction_Memory PORT MAP(
 		address => PC_to_IM,
 		reset => reset_in,
@@ -176,8 +260,17 @@ Inst_Instruction_Memory: Instruction_Memory PORT MAP(
 
 Inst_ucontrol: ucontrol PORT MAP(
 		op => IM_to_RF(31 downto 30),
+		op2 => ,
 		op3 => IM_to_RF(24 downto 19),
-		ucout => UC_to_ALU
+		icc => ,
+		cond => ,
+		ucout => ,
+		rfdest => ,
+		wrenmem => ,
+		rdenmem => ,
+		rfsource => ,
+		we => ,
+		pcsource => 
 	);
 	
 IM_to_WM(31 downto 30) <= IM_to_RF(31 downto 30);
@@ -190,9 +283,15 @@ Inst_registerFile: registerFile PORT MAP(
 		DWR => ALU_to_RF,
 		reset => reset_in,
 		crs1 => RF_to_ALU,
-		crs2 => RF_to_MUX
+		crs2 => RF_to_MUX,
+		crd => RF_to_DM
 	);
-
+	
+Inst_SEU22: SEU22 PORT MAP(
+		inme22 => ,
+		seu_out => 
+	);
+	
 Inst_seu_32: seu_32 PORT MAP(
 		inme13 => IM_to_RF(12 downto 0),
 		seu_out => SEU_to_MUX
@@ -214,6 +313,33 @@ Inst_alu32: alu32 PORT MAP(
 		c => PSR_to_ALU(0)
 	);
 
+Inst_MUX32Alu: MUX32Alu PORT MAP(
+		clk => clk_in,
+		opcion => ,
+		entrada1 => ,
+		entrada2 => ,
+		entrada3 => ,
+		salida => 
+	);
+	
+Inst_DM: DM PORT MAP(
+		reset => reset_in,
+		WEnable => ,
+		Address => ,
+		Data => ,
+		DMout => 
+	);
+
+Inst_Mux32disp: Mux32disp PORT MAP(
+		clk => clk_in,
+		opcion => ,
+		entrada1 => ,
+		entrada2 => ,
+		entrada3 => ,
+		entrada4 => ,
+		salida => Mux32disp_to_nPC
+	);
+	
 Inst_WM: WM PORT MAP(
 		rst => reset_in,
 		rs1 => IM_to_RF(18 downto 14),
