@@ -9,7 +9,8 @@ entity registerFile is
            DWR : in  STD_LOGIC_VECTOR (31 downto 0);
            reset : in  STD_LOGIC;
            crs1 : out  STD_LOGIC_VECTOR (31 downto 0);
-           crs2 : out  STD_LOGIC_VECTOR (31 downto 0)
+           crs2 : out  STD_LOGIC_VECTOR (31 downto 0);
+			  crd : out  STD_LOGIC_VECTOR (31 downto 0)
            );
 end registerFile;
 
@@ -31,6 +32,8 @@ begin
 	else
 		crs1 <= RF(conv_integer(rs1));
 		crs2 <= RF(conv_integer(rs2));
+		crd <= RF(conv_integer(rd));
+		
 		if (rd /= "000000") then
 		
 			RF(conv_integer(rd)) <= DWR;
