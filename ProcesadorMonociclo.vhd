@@ -82,6 +82,7 @@ COMPONENT registerFile
 		rs2 : IN std_logic_vector(5 downto 0);
 		rd : IN std_logic_vector(5 downto 0);
 		DWR : IN std_logic_vector(31 downto 0);
+		we : in std_logic;
 		reset : IN std_logic;          
 		crs1 : OUT std_logic_vector(31 downto 0);
 		crs2 : OUT std_logic_vector(31 downto 0);
@@ -137,6 +138,7 @@ COMPONENT DM
 	PORT(
 		reset : IN std_logic;
 		WEnable : IN std_logic;
+		RDEnable : IN  STD_LOGIC;
 		Address : IN std_logic_vector(31 downto 0);
 		Data : IN std_logic_vector(31 downto 0);          
 		DMout : OUT std_logic_vector(31 downto 0)
@@ -196,7 +198,15 @@ signal Mux32disp_to_nPC: std_logic_vector(31 downto 0);
 signal Sum32b_to_Mux32disp: std_logic_vector(31 downto 0);
 signal Sumdisp22_to_Mux32disp: std_logic_vector(31 downto 0);
 signal Sumdisp30_to_Mux32disp: std_logic_vector(31 downto 0);
+signal SEU22_to_sumdisp22: std_logic_vector(31 downto 0);
+signal UC_to_Mux32disp: std_logic_vector(1 downto 0);
+signal UC_to_DM_RDEN: std_logic;
+signal UC_to_DM_WEN: std_logic;
+signal UC_to_MUX32Alu: std_logic_vector(1 downto 0);
+signal UC_to_RF_WEN: std_logic;
+signal MUX32Alu_to_RF: std_logic_vector(31 downto 0);
 
+signal DM_to_MUX32Alu: std_logic_vector(31 downto 0);
 
 signal ADD_to_nPC: std_logic_vector(31 downto 0);
 
@@ -209,7 +219,7 @@ signal RF_to_DM: std_logic_vector(31 downto 0);
 signal SEU_to_MUX: std_logic_vector(31 downto 0);
 signal MUX_to_ALU: std_logic_vector(31 downto 0);
 signal UC_to_ALU: std_logic_vector(5 downto 0);
-signal ALU_to_RF: std_logic_vector(31 downto 0);
+signal ALU_to_RF: std_logic_vector(31 downto 0);--Resultado ALU
 signal IM_to_WM: std_logic_vector(31 downto 0);
 signal WM_to_RF: std_logic_vector(17 downto 0);
 signal PSR_MOD_to_PSR: std_logic_vector(3 downto 0);
@@ -218,7 +228,7 @@ signal PSR_to_WM: std_logic_vector(0 downto 0):= "0";
 signal PSR_to_ALU: std_logic_vector(0 downto 0):= "0";
 
 begin
-ALUresult <= ALU_to_RF;
+ALUresult <= ALU_to_RF;--Resultado ALU
 
 Inst_nProgramCounter: nProgramCounter PORT MAP(
 		nPC_in => Mux32disp_to_nPC,
@@ -242,12 +252,12 @@ Inst_sumador_32b: sumador_32b PORT MAP(
 
 Inst_sumador_disp22: sumador_disp22 PORT MAP(
 		A => PC_to_IM,
-		B => ,
+		B => SEU22_to_sumdisp22,
 		SUM => Sumdisp22_to_Mux32disp
 	);
 
 Inst_sumador_disp30: sumador_disp30 PORT MAP(
-		A => ,
+		A => IM_to_RF(29 downto 0),
 		B => PC_to_IM,
 		SUM => Sumdisp30_to_Mux32disp
 	);
@@ -260,17 +270,17 @@ Inst_Instruction_Memory: Instruction_Memory PORT MAP(
 
 Inst_ucontrol: ucontrol PORT MAP(
 		op => IM_to_RF(31 downto 30),
-		op2 => ,
+		op2 => IM_to_RF(24 downto 22),
 		op3 => IM_to_RF(24 downto 19),
-		icc => ,
-		cond => ,
-		ucout => ,
+		icc => PSR_MOD_to_PSR,--NZVC
+		cond => IM_to_RF(28 downto 25),
+		ucout => UC_to_ALU,
 		rfdest => ,
-		wrenmem => ,
-		rdenmem => ,
-		rfsource => ,
-		we => ,
-		pcsource => 
+		wrenmem => UC_to_DM_WEN,
+		rdenmem => UC_to_DM_RDEN,
+		rfsource => UC_to_MUX32Alu,
+		we => UC_to_RF_WEN,
+		pcsource => UC_to_Mux32disp
 	);
 	
 IM_to_WM(31 downto 30) <= IM_to_RF(31 downto 30);
@@ -280,7 +290,8 @@ Inst_registerFile: registerFile PORT MAP(
 		rs1 => WM_to_RF(5 downto 0),
 		rs2 => WM_to_RF(11 downto 6),
 		rd => WM_to_RF(17 downto 12),
-		DWR => ALU_to_RF,
+		we => UC_to_RF_WEN,
+		DWR => MUX32Alu_to_RF,
 		reset => reset_in,
 		crs1 => RF_to_ALU,
 		crs2 => RF_to_MUX,
@@ -288,8 +299,8 @@ Inst_registerFile: registerFile PORT MAP(
 	);
 	
 Inst_SEU22: SEU22 PORT MAP(
-		inme22 => ,
-		seu_out => 
+		inme22 => IM_to_RF(21 downto 0),
+		seu_out => SEU22_to_sumdisp22
 	);
 	
 Inst_seu_32: seu_32 PORT MAP(
@@ -315,28 +326,29 @@ Inst_alu32: alu32 PORT MAP(
 
 Inst_MUX32Alu: MUX32Alu PORT MAP(
 		clk => clk_in,
-		opcion => ,
-		entrada1 => ,
-		entrada2 => ,
-		entrada3 => ,
-		salida => 
+		opcion => UC_to_MUX32Alu,
+		entrada1 => DM_to_MUX32Alu,
+		entrada2 => ALU_to_RF,--Resultado ALU
+		entrada3 => PC_to_IM,
+		salida => MUX32Alu_to_RF
 	);
 	
 Inst_DM: DM PORT MAP(
 		reset => reset_in,
-		WEnable => ,
-		Address => ,
-		Data => ,
-		DMout => 
+		WEnable => UC_to_DM_WEN,
+		RDEnable => UC_to_DM_RDEN,
+		Address => RF_to_DM,
+		Data => ALU_to_RF,--Resultado ALU
+		DMout => DM_to_MUX32Alu
 	);
 
 Inst_Mux32disp: Mux32disp PORT MAP(
 		clk => clk_in,
-		opcion => ,
-		entrada1 => ,
-		entrada2 => ,
-		entrada3 => ,
-		entrada4 => ,
+		opcion => UC_to_Mux32disp,
+		entrada1 => Sumdisp30_to_Mux32disp,
+		entrada2 => Sumdisp22_to_Mux32disp,
+		entrada3 => Sum32b_to_Mux32disp,
+		entrada4 => ALU_to_RF,--Resultado ALU
 		salida => Mux32disp_to_nPC
 	);
 	
@@ -358,7 +370,7 @@ Inst_PSR_Modifier: PSR_Modifier PORT MAP(
 		rst => reset_in,
 		CRS1 => RF_to_ALU(31),
 		operando2 => MUX_to_ALU(31),
-		AluResult => ALU_to_RF,
+		AluResult => ALU_to_RF,--Resultado ALU
 		AluOP => IM_to_WM(24 downto 19),
 		nzvc => PSR_MOD_to_PSR
 	);
