@@ -169,7 +169,18 @@ COMPONENT WM
 		ncwp : OUT std_logic;
 		nrs1 : OUT std_logic_vector(5 downto 0);
 		nrs2 : OUT std_logic_vector(5 downto 0);
-		nrd : OUT std_logic_vector(5 downto 0)
+		nrd : OUT std_logic_vector(5 downto 0);
+		registro07: OUT std_logic_vector(5 downto 0)
+		);
+	END COMPONENT;
+	
+	COMPONENT MUX_RD
+	PORT(
+		clk : IN std_logic;
+		entrada1 : IN std_logic_vector(5 downto 0);
+		entrada2 : IN std_logic_vector(5 downto 0);
+		RF_DEST : IN std_logic;       
+		salida : INOUT std_logic_vector(5 downto 0)
 		);
 	END COMPONENT;
 	
@@ -204,7 +215,10 @@ signal UC_to_DM_RDEN: std_logic;
 signal UC_to_DM_WEN: std_logic;
 signal UC_to_MUX32Alu: std_logic_vector(1 downto 0);
 signal UC_to_RF_WEN: std_logic;
+signal UC_to_RF_DEST: std_logic;
 signal MUX32Alu_to_RF: std_logic_vector(31 downto 0);
+signal WM_to_MUX_RD: std_logic_vector(5 downto 0);
+signal MUX_RD_to_RF: std_logic_vector(5 downto 0);
 
 signal DM_to_MUX32Alu: std_logic_vector(31 downto 0);
 
@@ -257,7 +271,7 @@ Inst_sumador_disp22: sumador_disp22 PORT MAP(
 	);
 
 Inst_sumador_disp30: sumador_disp30 PORT MAP(
-		A => IM_to_RF(29 downto 0),
+		A => IM_to_RF,
 		B => PC_to_IM,
 		SUM => Sumdisp30_to_Mux32disp
 	);
@@ -275,7 +289,7 @@ Inst_ucontrol: ucontrol PORT MAP(
 		icc => PSR_MOD_to_PSR,--NZVC
 		cond => IM_to_RF(28 downto 25),
 		ucout => UC_to_ALU,
-		rfdest => ,
+		rfdest => UC_to_RF_DEST,
 		wrenmem => UC_to_DM_WEN,
 		rdenmem => UC_to_DM_RDEN,
 		rfsource => UC_to_MUX32Alu,
@@ -289,7 +303,7 @@ IM_to_WM(24 downto 19) <= IM_to_RF(24 downto 19);
 Inst_registerFile: registerFile PORT MAP(
 		rs1 => WM_to_RF(5 downto 0),
 		rs2 => WM_to_RF(11 downto 6),
-		rd => WM_to_RF(17 downto 12),
+		rd => MUX_RD_to_RF,
 		we => UC_to_RF_WEN,
 		DWR => MUX32Alu_to_RF,
 		reset => reset_in,
@@ -363,9 +377,18 @@ Inst_WM: WM PORT MAP(
 		ncwp => WM_to_PSR(0),
 		nrs1 => WM_to_RF(5 downto 0),
 		nrs2 => WM_to_RF(11 downto 6),
-		nrd => WM_to_RF(17 downto 12)
+		nrd => WM_to_RF(17 downto 12),
+		registro07 => WM_to_MUX_RD
 	);
 
+Inst_MUX_RD: MUX_RD PORT MAP(
+		clk => clk_in,
+		entrada1 => WM_to_RF(17 downto 12),
+		entrada2 => WM_to_MUX_RD,
+		RF_DEST => UC_to_RF_DEST,
+		salida => MUX_RD_to_RF
+	);
+	
 Inst_PSR_Modifier: PSR_Modifier PORT MAP(
 		rst => reset_in,
 		CRS1 => RF_to_ALU(31),
