@@ -7,6 +7,7 @@ entity registerFile is
            rs2 : in  STD_LOGIC_VECTOR (5 downto 0);
            rd : in  STD_LOGIC_VECTOR (5 downto 0);
            DWR : in  STD_LOGIC_VECTOR (31 downto 0);
+			  we : in STD_LOGIC;
            reset : in  STD_LOGIC;
            crs1 : out  STD_LOGIC_VECTOR (31 downto 0);
            crs2 : out  STD_LOGIC_VECTOR (31 downto 0);
@@ -21,7 +22,7 @@ signal RF: rom_type:=(others => "00000000000000000000000000000000");
 
 begin
 
-process(rs1, rs2, rd, DWR, reset)
+process(rs1, rs2, rd, DWR, we, reset)
 
 begin
 	RF(0) <= "00000000000000000000000000000000";
@@ -34,7 +35,7 @@ begin
 		crs2 <= RF(conv_integer(rs2));
 		crd <= RF(conv_integer(rd));
 		
-		if (rd /= "000000") then
+		if (we = '1' and rd /= "000000") then
 		
 			RF(conv_integer(rd)) <= DWR;
 			
