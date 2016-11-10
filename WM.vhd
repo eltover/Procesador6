@@ -16,7 +16,8 @@ port (	 rst : in std_logic:='0';
 			 ncwp : out std_logic:='0';
 			 nrs1 : out std_logic_vector(5 downto 0);
 			 nrs2 : out std_logic_vector(5 downto 0);
-			 nrd : out std_logic_vector(5 downto 0)
+			 nrd : out std_logic_vector(5 downto 0);
+			 registro07: out std_logic_vector(5 downto 0)
 			 );
 end WM;	
 
@@ -25,6 +26,12 @@ architecture Behavioral of WM is
 begin
 process(rst, cwp, rs1, rs2, rd, OP, OP3)
 	begin
+			if (cwp = '1')then
+				registro07 <= "011111";
+			else
+				registro07 <= "001111";
+			end if;
+			
 			if (rst = '1') then
 				ncwp <= '0';
 				nrs1 <= "000000";

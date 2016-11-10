@@ -1,9 +1,6 @@
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
- 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
  
 ENTITY ProcesadorMonociclo_TB IS
 END ProcesadorMonociclo_TB;
@@ -56,7 +53,7 @@ BEGIN
 	
       reset_in <= '1';
       	wait for 50 ns;	
-		reset_in <= '0'; 
+		reset_in <= '0';
 
       wait;
    end process;
